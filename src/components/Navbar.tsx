@@ -1,6 +1,7 @@
+
 import { useEffect, useState } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
-import { Bell, Menu, Moon, Sun, X } from "lucide-react";
+import { Bell, Moon, Sun, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Logo from "./Logo";
 import { useAuthStore } from "@/store/authStore";
@@ -17,6 +18,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -25,6 +27,7 @@ export default function Navbar() {
   const navigate = useNavigate();
   const { theme, setTheme } = useTheme();
   const [greeting, setGreeting] = useState("");
+  const isMobile = useIsMobile();
 
   // Close mobile menu when route changes
   useEffect(() => {
@@ -57,9 +60,12 @@ export default function Navbar() {
       <div className="container mx-auto px-4 py-3 flex justify-between items-center">
         {/* Left section with logo (mobile) or greeting (desktop) */}
         <div className="flex items-center">
-          <div className="md:hidden">
+          {/* Only show Logo on mobile when on non-authenticated pages */}
+          <div className={!isLoggedIn ? "md:hidden" : "hidden"}>
             <Logo withText />
           </div>
+          {/* Add extra space on mobile to account for the sidebar button */}
+          {isMobile && isLoggedIn && <div className="w-8" />}
           {isLoggedIn && firstName && (
             <p className="hidden md:block text-lg font-medium ml-2">
               {greeting}, <span className="font-semibold gradient-text">{firstName}</span>
@@ -113,73 +119,49 @@ export default function Navbar() {
             </>
           )}
 
-          {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center gap-6">
-            {isLoggedIn ? (
-              <Button 
-                variant="outline"
-                onClick={handleLogout}
-                className="ml-2"
-              >
-                Logout
+          {/* Desktop Navigation - hide on logged in states as the sidebar handles this */}
+          {!isLoggedIn && (
+            <nav className="hidden md:flex items-center gap-6">
+              <NavLink to="/pricing">Pricing</NavLink>
+              <Button asChild className="ml-2">
+                <Link to="/login">Login</Link>
               </Button>
-            ) : (
-              <>
-                <NavLink to="/pricing">Pricing</NavLink>
-                <Button asChild className="ml-2">
-                  <Link to="/login">Login</Link>
-                </Button>
-                <Button asChild variant="outline">
-                  <Link to="/register">Register</Link>
-                </Button>
-              </>
-            )}
-          </nav>
+              <Button asChild variant="outline">
+                <Link to="/register">Register</Link>
+              </Button>
+            </nav>
+          )}
 
-          {/* Mobile Menu Button */}
-          <button
-            className="md:hidden ml-2"
-            onClick={() => setIsOpen(!isOpen)}
-            aria-label="Toggle menu"
-          >
-            {isOpen ? (
-              <X className="h-6 w-6" />
-            ) : (
-              <Menu className="h-6 w-6" />
-            )}
-          </button>
+          {/* Mobile Menu Button - only show on non-authenticated pages */}
+          {!isLoggedIn && (
+            <button
+              className="md:hidden ml-2"
+              onClick={() => setIsOpen(!isOpen)}
+              aria-label="Toggle menu"
+            >
+              {isOpen ? (
+                <X className="h-6 w-6" />
+              ) : (
+                <Button variant="ghost" size="icon">
+                  <Menu className="h-6 w-6" />
+                </Button>
+              )}
+            </button>
+          )}
         </div>
       </div>
 
-      {/* Mobile Navigation */}
-      {isOpen && (
+      {/* Mobile Navigation - only for non-authenticated pages */}
+      {isOpen && !isLoggedIn && (
         <div className="md:hidden p-4 bg-background border-t animate-fade-in">
           <nav className="flex flex-col space-y-4">
-            {isLoggedIn ? (
-              <>
-                <MobileNavLink to="/dashboard" onClick={() => setIsOpen(false)}>Dashboard</MobileNavLink>
-                <MobileNavLink to="/history" onClick={() => setIsOpen(false)}>History</MobileNavLink>
-                <MobileNavLink to="/pricing" onClick={() => setIsOpen(false)}>Pricing</MobileNavLink>
-                <MobileNavLink to="/settings" onClick={() => setIsOpen(false)}>Settings</MobileNavLink>
-                <Button 
-                  variant="outline"
-                  onClick={handleLogout}
-                  className="w-full mt-2"
-                >
-                  Logout
-                </Button>
-              </>
-            ) : (
-              <>
-                <MobileNavLink to="/pricing" onClick={() => setIsOpen(false)}>Pricing</MobileNavLink>
-                <Button asChild className="w-full mt-2">
-                  <Link to="/login">Login</Link>
-                </Button>
-                <Button asChild variant="outline" className="w-full">
-                  <Link to="/register">Register</Link>
-                </Button>
-              </>
-            )}
+            <MobileNavLink to="/pricing" onClick={() => setIsOpen(false)}>Pricing</MobileNavLink>
+            <Button asChild className="w-full mt-2">
+              <Link to="/login">Login</Link>
+            </Button>
+            <Button asChild variant="outline" className="w-full">
+              <Link to="/register">Register</Link>
+            </Button>
           </nav>
         </div>
       )}
@@ -215,3 +197,6 @@ const MobileNavLink = ({
     {children}
   </Link>
 );
+
+// Import Menu from lucide-react at the top of the file
+import { Menu } from "lucide-react";

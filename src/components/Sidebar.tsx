@@ -14,24 +14,22 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 export default function Sidebar() {
   const [isCollapsed, setIsCollapsed] = useState(false);
-  const [isMobile, setIsMobile] = useState(false);
   const location = useLocation();
   const { user, logout } = useAuthStore();
   const { isPremium } = useCreditsStore();
+  const isMobile = useIsMobile();
 
   // Access user metadata safely
   const userMetadata = user?.user_metadata as Record<string, any> || {};
 
   useEffect(() => {
     const checkWidth = () => {
-      if (window.innerWidth < 1024) {
+      if (window.innerWidth < 1024 && !isMobile) {
         setIsCollapsed(true);
-        setIsMobile(true);
-      } else {
-        setIsMobile(false);
       }
     };
 
@@ -41,7 +39,7 @@ export default function Sidebar() {
     return () => {
       window.removeEventListener('resize', checkWidth);
     };
-  }, []);
+  }, [isMobile]);
 
   // Nav items with icons and links
   const navItems = [
@@ -60,22 +58,20 @@ export default function Sidebar() {
     logout();
   };
 
+  // On mobile, use the full drawer width
+  const sidebarStyles = isMobile 
+    ? "w-full h-full border-0"
+    : cn(
+        "glass fixed top-0 left-0 h-full border-r border-white/10 transition-all duration-300 ease-in-out z-40",
+        isCollapsed ? "w-[70px]" : "w-[240px]",
+        "lg:block",
+        "hidden" // Hide on mobile when not in drawer
+      );
+
   return (
     <TooltipProvider delayDuration={300}>
-      {/* Mobile sidebar overlay */}
-      {isMobile && !isCollapsed && (
-        <div 
-          className="fixed inset-0 bg-black/50 backdrop-blur-sm z-30"
-          onClick={() => setIsCollapsed(true)} 
-        />
-      )}
-      
-      {/* Sidebar */}
       <aside 
-        className={cn(
-          "glass fixed top-0 left-0 h-full border-r border-white/10 transition-all duration-300 ease-in-out z-40",
-          isCollapsed ? "w-[70px]" : "w-[240px]"
-        )}
+        className={sidebarStyles}
         style={{ 
           backdropFilter: "blur(10px)",
           background: "rgba(255, 255, 255, 0.05)"
@@ -85,12 +81,14 @@ export default function Sidebar() {
           {/* Header with logo and toggle */}
           <div className="flex items-center justify-between h-16 px-4 border-b border-white/10">
             {!isCollapsed && <Logo size="sm" />}
-            <button 
-              className="p-1.5 rounded-md hover:bg-accent transition-all"
-              onClick={() => setIsCollapsed(!isCollapsed)}
-            >
-              {isCollapsed ? <Menu size={20} /> : <X size={20} />}
-            </button>
+            {!isMobile && (
+              <button 
+                className="p-1.5 rounded-md hover:bg-accent transition-all"
+                onClick={() => setIsCollapsed(!isCollapsed)}
+              >
+                {isCollapsed ? <Menu size={20} /> : <X size={20} />}
+              </button>
+            )}
           </div>
           
           {/* Navigation */}
@@ -115,7 +113,7 @@ export default function Sidebar() {
                       {!isCollapsed && <span>{item.label}</span>}
                     </Link>
                   </TooltipTrigger>
-                  {isCollapsed && (
+                  {isCollapsed && !isMobile && (
                     <TooltipContent side="right">
                       {item.label}
                     </TooltipContent>
@@ -129,7 +127,7 @@ export default function Sidebar() {
           <div className="mt-auto mb-4 px-2">
             <div className={cn(
               "flex items-center gap-3 p-3 rounded-md border border-white/10",
-              isCollapsed ? "flex-col" : "flex-row"
+              isCollapsed && !isMobile ? "flex-col" : "flex-row"
             )}>
               <Avatar className="h-9 w-9">
                 <AvatarImage src={userMetadata?.avatar_url || ""} />
@@ -170,7 +168,7 @@ export default function Sidebar() {
                 </Tooltip>
               )}
               
-              {isCollapsed && (
+              {isCollapsed && !isMobile && (
                 <Tooltip>
                   <TooltipTrigger asChild>
                     <Button 
@@ -192,12 +190,14 @@ export default function Sidebar() {
         </div>
       </aside>
       
-      {/* Spacer to push content away from sidebar */}
-      <div className={cn(
-        "transition-all duration-300 ease-in-out",
-        isCollapsed ? "ml-[70px]" : "ml-[240px]",
-        isMobile && "ml-0"
-      )} />
+      {/* Spacer to push content away from sidebar - only on desktop */}
+      {!isMobile && (
+        <div className={cn(
+          "transition-all duration-300 ease-in-out",
+          isCollapsed ? "ml-[70px]" : "ml-[240px]",
+          "hidden lg:block" // Only show on large screens
+        )} />
+      )}
     </TooltipProvider>
   );
 }
