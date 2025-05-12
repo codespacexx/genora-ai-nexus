@@ -1,7 +1,7 @@
 
 import { useEffect, useState } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
-import { Bell, Moon, Sun, X } from "lucide-react";
+import { Bell, Menu, Moon, Sun, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Logo from "./Logo";
 import { useAuthStore } from "@/store/authStore";
@@ -19,7 +19,6 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useIsMobile } from "@/hooks/use-mobile";
-import { Menu } from "lucide-react";
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -198,6 +197,3 @@ const MobileNavLink = ({
     {children}
   </Link>
 );
-
-// Import Menu from lucide-react at the top of the file
-import { Menu } from "lucide-react";
