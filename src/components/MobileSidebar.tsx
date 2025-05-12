@@ -38,7 +38,6 @@ export default function MobileSidebar() {
         <DrawerOverlay className="bg-black/50 backdrop-blur-sm" />
         <DrawerContent
           className="w-[240px] max-w-[80vw] h-full top-0 left-0 rounded-none"
-          onClickOutside={() => setIsOpen(false)}
         >
           <div className="h-full">
             <Sidebar />
