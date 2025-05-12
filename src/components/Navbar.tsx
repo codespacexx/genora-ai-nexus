@@ -50,7 +50,9 @@ export default function Navbar() {
     navigate("/login");
   };
 
-  const firstName = user?.user_metadata?.name?.split(' ')[0] || 
+  // Access user metadata safely
+  const userMetadata = user?.user_metadata as Record<string, any> || {};
+  const firstName = userMetadata?.name?.split(' ')[0] || 
                    (user?.email ? user.email.split('@')[0] : '');
 
   return (

@@ -22,6 +22,9 @@ export default function Sidebar() {
   const { user, logout } = useAuthStore();
   const { isPremium } = useCreditsStore();
 
+  // Access user metadata safely
+  const userMetadata = user?.user_metadata as Record<string, any> || {};
+
   useEffect(() => {
     const checkWidth = () => {
       if (window.innerWidth < 1024) {
@@ -48,7 +51,7 @@ export default function Sidebar() {
     { icon: Settings, label: "Settings", href: "/settings" },
   ];
 
-  const getInitials = (name) => {
+  const getInitials = (name: string | undefined | null) => {
     if (!name) return "U";
     return name.split(" ").map((n) => n[0]).join("").toUpperCase();
   };
@@ -129,16 +132,16 @@ export default function Sidebar() {
               isCollapsed ? "flex-col" : "flex-row"
             )}>
               <Avatar className="h-9 w-9">
-                <AvatarImage src={user?.avatar_url || ""} />
+                <AvatarImage src={userMetadata?.avatar_url || ""} />
                 <AvatarFallback className="bg-primary/10">
-                  {getInitials(user?.user_metadata?.name || user?.email)}
+                  {getInitials(userMetadata?.name || user?.email)}
                 </AvatarFallback>
               </Avatar>
               
               {!isCollapsed && (
                 <div className="flex flex-col min-w-0 flex-1">
                   <span className="font-medium truncate">
-                    {user?.user_metadata?.name || user?.email || "User"}
+                    {userMetadata?.name || user?.email || "User"}
                   </span>
                   <span className={cn(
                     "text-xs truncate",

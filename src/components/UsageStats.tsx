@@ -1,5 +1,5 @@
 
-import { Chart, BarChart } from "lucide-react";
+import { BarChart } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 export default function UsageStats() {
@@ -14,7 +14,7 @@ export default function UsageStats() {
     <Card className="backdrop-blur-sm bg-card/60">
       <CardHeader className="pb-2">
         <CardTitle className="text-lg flex items-center">
-          <Chart className="mr-2 h-5 w-5 text-muted-foreground" />
+          <BarChart className="mr-2 h-5 w-5 text-muted-foreground" />
           Usage Statistics
         </CardTitle>
       </CardHeader>
