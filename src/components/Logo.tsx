@@ -4,9 +4,10 @@ import { Link } from "react-router-dom";
 interface LogoProps {
   size?: "sm" | "md" | "lg";
   withText?: boolean;
+  className?: string;
 }
 
-export default function Logo({ size = "md", withText = true }: LogoProps) {
+export default function Logo({ size = "md", withText = true, className = "" }: LogoProps) {
   const sizes = {
     sm: "w-8 h-8",
     md: "w-10 h-10",
@@ -22,7 +23,7 @@ export default function Logo({ size = "md", withText = true }: LogoProps) {
   return (
     <Link 
       to="/dashboard" 
-      className="flex items-center gap-2.5 font-bold"
+      className={`flex items-center gap-2.5 font-bold ${className}`}
     >
       <svg 
         className={`${sizes[size]}`}
