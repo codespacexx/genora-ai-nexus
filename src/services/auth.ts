@@ -7,6 +7,7 @@ export interface User {
   email: string;
   name: string | null;
   isPremium: boolean;
+  user_metadata?: Record<string, any>;
 }
 
 // Mock auth service (replace with real auth integration)
@@ -22,7 +23,8 @@ class AuthService {
         id: crypto.randomUUID(),
         email,
         name: name || null,
-        isPremium: false
+        isPremium: false,
+        user_metadata: { name: name || null }
       };
       
       // Store user in localStorage (simulated backend)
@@ -57,7 +59,8 @@ class AuthService {
           id: crypto.randomUUID(),
           email,
           name: null,
-          isPremium: false
+          isPremium: false,
+          user_metadata: { name: null }
         };
         localStorage.setItem(this.USER_KEY, JSON.stringify(user));
       }

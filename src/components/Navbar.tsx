@@ -1,4 +1,3 @@
-
 import { useEffect, useState } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { Bell, Menu, Moon, Sun, X } from "lucide-react";
@@ -50,9 +49,7 @@ export default function Navbar() {
     navigate("/login");
   };
 
-  // Access user metadata safely
-  const userMetadata = user?.user_metadata as Record<string, any> || {};
-  const firstName = userMetadata?.name?.split(' ')[0] || 
+  const firstName = user?.user_metadata?.name?.split(' ')[0] || 
                    (user?.email ? user.email.split('@')[0] : '');
 
   return (
