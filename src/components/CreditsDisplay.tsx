@@ -1,7 +1,6 @@
 
 import { useEffect } from "react";
 import { Button } from "@/components/ui/button";
-import { Progress } from "@/components/ui/progress";
 import { useCreditsStore } from "@/store/creditsStore";
 import { useAuthStore } from "@/store/authStore";
 import { Link } from "react-router-dom";
@@ -24,21 +23,57 @@ export default function CreditsDisplay() {
   
   // Calculate percentage
   const percentage = Math.round((credits / maxCredits) * 100);
+  const strokeWidth = 10;
+  const radius = 40;
+  const circumference = 2 * Math.PI * radius;
+  const offset = circumference - (percentage / 100) * circumference;
   
   return (
-    <div className="border rounded-xl p-4 card-shadow">
+    <div className="border rounded-xl p-5 card-shadow backdrop-blur-sm bg-card/60">
       <div className="flex items-center justify-between mb-3">
-        <h3 className="font-semibold">Daily Credits</h3>
-        <span className={`text-sm ${isPremium ? 'text-genora-purple' : 'text-muted-foreground'}`}>
+        <h3 className="font-semibold text-lg">Daily Credits</h3>
+        <span className={`text-sm font-medium px-2 py-0.5 rounded-full ${isPremium ? 'bg-primary/10 text-primary' : 'bg-muted text-muted-foreground'}`}>
           {isPremium ? 'Premium' : 'Free'}
         </span>
       </div>
       
-      <div className="flex items-center gap-3 mb-3">
-        <Progress value={percentage} className="h-2" />
-        <span className="text-sm font-medium min-w-[45px] text-right">
-          {credits}/{maxCredits}
-        </span>
+      <div className="flex items-center justify-center my-4">
+        <div className="relative flex items-center justify-center">
+          <svg width="100" height="100" viewBox="0 0 100 100" className="transform -rotate-90">
+            {/* Background circle */}
+            <circle
+              cx="50"
+              cy="50"
+              r={radius}
+              fill="transparent"
+              stroke="hsl(var(--muted))"
+              strokeWidth={strokeWidth}
+            />
+            {/* Foreground circle */}
+            <circle
+              cx="50"
+              cy="50"
+              r={radius}
+              fill="transparent"
+              stroke="url(#gradient)"
+              strokeWidth={strokeWidth}
+              strokeDasharray={circumference}
+              strokeDashoffset={offset}
+              strokeLinecap="round"
+            />
+            {/* Gradient definition */}
+            <defs>
+              <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" stopColor="hsl(var(--primary))" />
+                <stop offset="100%" stopColor="hsl(var(--primary))" />
+              </linearGradient>
+            </defs>
+          </svg>
+          <div className="absolute text-center">
+            <span className="block text-2xl font-bold">{credits}</span>
+            <span className="text-xs text-muted-foreground">/{maxCredits}</span>
+          </div>
+        </div>
       </div>
       
       {credits === 0 && !isPremium && (
@@ -46,7 +81,7 @@ export default function CreditsDisplay() {
           <p className="text-destructive mb-2">
             You've hit the daily limit!
           </p>
-          <Button asChild size="sm" className="w-full">
+          <Button asChild size="sm" className="w-full gradient-bg">
             <Link to="/pricing">Upgrade now</Link>
           </Button>
         </div>

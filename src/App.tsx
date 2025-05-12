@@ -21,12 +21,27 @@ import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
 
+// Initialize theme from localStorage or system preference
+const initializeTheme = () => {
+  const storedTheme = localStorage.getItem('theme');
+  if (storedTheme) {
+    document.documentElement.classList.add(storedTheme);
+  } else {
+    // Check system preference
+    const systemPreference = window.matchMedia('(prefers-color-scheme: dark)').matches
+      ? 'dark'
+      : 'light';
+    document.documentElement.classList.add(systemPreference);
+  }
+};
+
 const App = () => {
   const { loadUser } = useAuthStore();
   const { checkAndResetCredits } = useCreditsStore();
   
-  // Load user and check credits on app start
+  // Initialize theme and load user data on app start
   useEffect(() => {
+    initializeTheme();
     loadUser();
     checkAndResetCredits();
   }, [loadUser, checkAndResetCredits]);

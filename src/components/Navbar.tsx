@@ -1,20 +1,48 @@
 
 import { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { Menu, X } from "lucide-react";
+import { Link, useNavigate, useLocation } from "react-router-dom";
+import { Bell, Menu, Moon, Sun, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Logo from "./Logo";
 import { useAuthStore } from "@/store/authStore";
+import { useTheme } from "@/hooks/useTheme";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
-  const { isLoggedIn, logout } = useAuthStore();
+  const { isLoggedIn, logout, user } = useAuthStore();
+  const location = useLocation();
   const navigate = useNavigate();
+  const { theme, setTheme } = useTheme();
+  const [greeting, setGreeting] = useState("");
 
   // Close mobile menu when route changes
   useEffect(() => {
     setIsOpen(false);
   }, [location.pathname]);
+
+  // Set greeting based on time of day
+  useEffect(() => {
+    const hour = new Date().getHours();
+    if (hour < 12) {
+      setGreeting("Good morning");
+    } else if (hour < 18) {
+      setGreeting("Good afternoon");
+    } else {
+      setGreeting("Good evening");
+    }
+  }, []);
 
   // Handle logout
   const handleLogout = () => {
@@ -22,53 +50,106 @@ export default function Navbar() {
     navigate("/login");
   };
 
+  const firstName = user?.user_metadata?.name?.split(' ')[0] || 
+                   (user?.email ? user.email.split('@')[0] : '');
+
   return (
     <header className="fixed top-0 left-0 w-full z-40 bg-background/80 backdrop-blur-md shadow-sm">
       <div className="container mx-auto px-4 py-3 flex justify-between items-center">
-        {/* Logo */}
-        <Logo withText />
+        {/* Left section with logo (mobile) or greeting (desktop) */}
+        <div className="flex items-center">
+          <div className="md:hidden">
+            <Logo withText />
+          </div>
+          {isLoggedIn && firstName && (
+            <p className="hidden md:block text-lg font-medium ml-2">
+              {greeting}, <span className="font-semibold gradient-text">{firstName}</span>
+            </p>
+          )}
+        </div>
 
-        {/* Desktop Navigation */}
-        <nav className="hidden md:flex items-center gap-6">
-          {isLoggedIn ? (
+        {/* Right section with actions */}
+        <div className="flex items-center gap-2">
+          {isLoggedIn && (
             <>
-              <NavLink to="/dashboard">Dashboard</NavLink>
-              <NavLink to="/history">History</NavLink>
-              <NavLink to="/pricing">Pricing</NavLink>
-              <NavLink to="/settings">Settings</NavLink>
+              {/* Theme Toggle */}
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    className="rounded-full"
+                    onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+                  >
+                    {theme === "dark" ? <Sun size={20} /> : <Moon size={20} />}
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent>
+                  Switch to {theme === "dark" ? "light" : "dark"} mode
+                </TooltipContent>
+              </Tooltip>
+
+              {/* Notifications */}
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                      <Button variant="ghost" size="icon" className="rounded-full relative">
+                        <Bell size={20} />
+                        <span className="absolute top-1 right-1 w-2 h-2 bg-primary rounded-full" />
+                      </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent align="end" className="w-80">
+                      <div className="p-4 text-center">
+                        <p className="text-sm font-medium">Notifications</p>
+                        <p className="text-xs text-muted-foreground mt-1">
+                          You're all caught up! No new notifications.
+                        </p>
+                      </div>
+                    </DropdownMenuContent>
+                  </DropdownMenu>
+                </TooltipTrigger>
+                <TooltipContent>Notifications</TooltipContent>
+              </Tooltip>
+            </>
+          )}
+
+          {/* Desktop Navigation */}
+          <nav className="hidden md:flex items-center gap-6">
+            {isLoggedIn ? (
               <Button 
                 variant="outline"
                 onClick={handleLogout}
-                className="ml-4"
+                className="ml-2"
               >
                 Logout
               </Button>
-            </>
-          ) : (
-            <>
-              <NavLink to="/pricing">Pricing</NavLink>
-              <Button asChild className="ml-4">
-                <Link to="/login">Login</Link>
-              </Button>
-              <Button asChild variant="outline">
-                <Link to="/register">Register</Link>
-              </Button>
-            </>
-          )}
-        </nav>
+            ) : (
+              <>
+                <NavLink to="/pricing">Pricing</NavLink>
+                <Button asChild className="ml-2">
+                  <Link to="/login">Login</Link>
+                </Button>
+                <Button asChild variant="outline">
+                  <Link to="/register">Register</Link>
+                </Button>
+              </>
+            )}
+          </nav>
 
-        {/* Mobile Menu Button */}
-        <button
-          className="md:hidden"
-          onClick={() => setIsOpen(!isOpen)}
-          aria-label="Toggle menu"
-        >
-          {isOpen ? (
-            <X className="h-6 w-6" />
-          ) : (
-            <Menu className="h-6 w-6" />
-          )}
-        </button>
+          {/* Mobile Menu Button */}
+          <button
+            className="md:hidden ml-2"
+            onClick={() => setIsOpen(!isOpen)}
+            aria-label="Toggle menu"
+          >
+            {isOpen ? (
+              <X className="h-6 w-6" />
+            ) : (
+              <Menu className="h-6 w-6" />
+            )}
+          </button>
+        </div>
       </div>
 
       {/* Mobile Navigation */}

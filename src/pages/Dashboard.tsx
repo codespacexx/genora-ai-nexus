@@ -3,15 +3,16 @@ import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useAuthStore } from "@/store/authStore";
-import { useCreditsStore } from "@/store/creditsStore";
 import Sidebar from "@/components/Sidebar";
 import Navbar from "@/components/Navbar";
 import CreditsDisplay from "@/components/CreditsDisplay";
+import UsageStats from "@/components/UsageStats";
+import QuickTips from "@/components/QuickTips";
 import TextGenerator from "@/components/TextGenerator";
 import ImageGenerator from "@/components/ImageGenerator";
 
 const Dashboard = () => {
-  const { isLoggedIn, isLoading, loadUser } = useAuthStore();
+  const { isLoggedIn, isLoading, loadUser, user } = useAuthStore();
   const navigate = useNavigate();
   
   useEffect(() => {
@@ -36,7 +37,15 @@ const Dashboard = () => {
       
       <main className="pt-16 px-4 md:px-8 pb-16 max-w-screen-2xl mx-auto lg:pl-[240px]">
         <div className="pt-8">
-          <h1 className="text-3xl font-bold mb-6">Dashboard</h1>
+          <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 mb-6">
+            {/* Widget Cards - First Row */}
+            <div className="lg:col-span-2">
+              <CreditsDisplay />
+            </div>
+            <div className="lg:col-span-2">
+              <UsageStats />
+            </div>
+          </div>
           
           <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
             {/* Left column - Tools */}
@@ -57,27 +66,9 @@ const Dashboard = () => {
               </Tabs>
             </div>
             
-            {/* Right column - Credits and Info */}
+            {/* Right column - Tips */}
             <div className="space-y-6">
-              <CreditsDisplay />
-              
-              <div className="border rounded-xl p-4 card-shadow">
-                <h3 className="font-semibold mb-3">Tips</h3>
-                <ul className="space-y-2 text-sm">
-                  <li className="flex gap-2">
-                    <span className="text-primary">•</span>
-                    <span>Be specific with your prompts for better results</span>
-                  </li>
-                  <li className="flex gap-2">
-                    <span className="text-primary">•</span>
-                    <span>Image generation uses 2 credits per image</span>
-                  </li>
-                  <li className="flex gap-2">
-                    <span className="text-primary">•</span>
-                    <span>View your generation history in the History tab</span>
-                  </li>
-                </ul>
-              </div>
+              <QuickTips />
             </div>
           </div>
         </div>

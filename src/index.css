@@ -105,7 +105,7 @@
   }
 
   .gradient-bg {
-    @apply bg-gradient-to-r from-genora-purple to-genora-blue;
+    @apply bg-gradient-to-r from-genora-purple to-genora-blue text-white hover:shadow-lg transition-all;
   }
 
   /* Glassmorphism effect */
@@ -134,4 +134,14 @@
   .input-primary {
     @apply border border-border rounded-lg px-4 py-2.5 w-full focus:border-genora-purple focus:ring-1 focus:ring-genora-purple/20 outline-none transition-all;
   }
+  
+  /* Animation classes */
+  .hover-scale {
+    @apply transition-transform duration-200 hover:scale-105;
+  }
+  
+  .hover-glow {
+    @apply transition-all duration-300 hover:shadow-[0_0_15px_rgba(139,92,246,0.5)];
+  }
 }
+

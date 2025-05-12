@@ -1,13 +1,26 @@
 
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-import { Home, History, Banknote, Settings, Menu, X } from "lucide-react";
+import { Link, useLocation } from "react-router-dom";
+import { Home, History, Banknote, Settings, Menu, X, LogOut, User } from "lucide-react";
 import { cn } from "@/lib/utils";
 import Logo from "./Logo";
+import { useAuthStore } from "@/store/authStore";
+import { useCreditsStore } from "@/store/creditsStore";
+import { Button } from "./ui/button";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 export default function Sidebar() {
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
+  const location = useLocation();
+  const { user, logout } = useAuthStore();
+  const { isPremium } = useCreditsStore();
 
   useEffect(() => {
     const checkWidth = () => {
@@ -35,8 +48,17 @@ export default function Sidebar() {
     { icon: Settings, label: "Settings", href: "/settings" },
   ];
 
+  const getInitials = (name) => {
+    if (!name) return "U";
+    return name.split(" ").map((n) => n[0]).join("").toUpperCase();
+  };
+
+  const handleLogout = () => {
+    logout();
+  };
+
   return (
-    <>
+    <TooltipProvider delayDuration={300}>
       {/* Mobile sidebar overlay */}
       {isMobile && !isCollapsed && (
         <div 
@@ -48,16 +70,20 @@ export default function Sidebar() {
       {/* Sidebar */}
       <aside 
         className={cn(
-          "bg-sidebar fixed top-0 left-0 h-full border-r border-border transition-all duration-300 ease-in-out z-40",
+          "glass fixed top-0 left-0 h-full border-r border-white/10 transition-all duration-300 ease-in-out z-40",
           isCollapsed ? "w-[70px]" : "w-[240px]"
         )}
+        style={{ 
+          backdropFilter: "blur(10px)",
+          background: "rgba(255, 255, 255, 0.05)"
+        }}
       >
         <div className="flex flex-col h-full">
           {/* Header with logo and toggle */}
-          <div className="flex items-center justify-between h-16 px-4 border-b border-border">
+          <div className="flex items-center justify-between h-16 px-4 border-b border-white/10">
             {!isCollapsed && <Logo size="sm" />}
             <button 
-              className="p-1.5 rounded-md hover:bg-accent"
+              className="p-1.5 rounded-md hover:bg-accent transition-all"
               onClick={() => setIsCollapsed(!isCollapsed)}
             >
               {isCollapsed ? <Menu size={20} /> : <X size={20} />}
@@ -66,31 +92,99 @@ export default function Sidebar() {
           
           {/* Navigation */}
           <nav className="flex flex-col gap-2 p-2 mt-4">
-            {navItems.map((item) => (
-              <Link
-                key={item.href}
-                to={item.href}
-                className="flex items-center gap-3 px-3 py-2.5 rounded-md hover:bg-accent transition-colors text-sidebar-foreground/80 hover:text-sidebar-foreground"
-              >
-                <item.icon size={20} />
-                {!isCollapsed && <span>{item.label}</span>}
-              </Link>
-            ))}
+            {navItems.map((item) => {
+              const isActive = location.pathname === item.href;
+              
+              return (
+                <Tooltip key={item.href}>
+                  <TooltipTrigger asChild>
+                    <Link
+                      to={item.href}
+                      className={cn(
+                        "flex items-center gap-3 px-3 py-2.5 rounded-md hover:bg-accent transition-all text-sidebar-foreground/80 hover:text-sidebar-foreground group",
+                        isActive && "bg-accent text-sidebar-foreground font-medium"
+                      )}
+                    >
+                      <item.icon 
+                        size={20} 
+                        className="transition-transform duration-200 group-hover:scale-110" 
+                      />
+                      {!isCollapsed && <span>{item.label}</span>}
+                    </Link>
+                  </TooltipTrigger>
+                  {isCollapsed && (
+                    <TooltipContent side="right">
+                      {item.label}
+                    </TooltipContent>
+                  )}
+                </Tooltip>
+              );
+            })}
           </nav>
           
-          {/* Credits section at bottom */}
-          <div className="mt-auto mb-6 px-3">
-            {!isCollapsed && (
-              <>
-                <p className="text-xs text-muted-foreground mb-2">Daily Credits</p>
-                <div className="bg-accent/50 rounded-full h-2 mb-5">
-                  <div 
-                    className="bg-gradient-to-r from-genora-purple to-genora-blue h-full rounded-full" 
-                    style={{ width: "60%" }}
-                  />
+          {/* User profile at bottom */}
+          <div className="mt-auto mb-4 px-2">
+            <div className={cn(
+              "flex items-center gap-3 p-3 rounded-md border border-white/10",
+              isCollapsed ? "flex-col" : "flex-row"
+            )}>
+              <Avatar className="h-9 w-9">
+                <AvatarImage src={user?.avatar_url || ""} />
+                <AvatarFallback className="bg-primary/10">
+                  {getInitials(user?.user_metadata?.name || user?.email)}
+                </AvatarFallback>
+              </Avatar>
+              
+              {!isCollapsed && (
+                <div className="flex flex-col min-w-0 flex-1">
+                  <span className="font-medium truncate">
+                    {user?.user_metadata?.name || user?.email || "User"}
+                  </span>
+                  <span className={cn(
+                    "text-xs truncate",
+                    isPremium ? "text-genora-purple" : "text-muted-foreground"
+                  )}>
+                    {isPremium ? "Premium Plan" : "Free Plan"}
+                  </span>
                 </div>
-              </>
-            )}
+              )}
+              
+              {!isCollapsed && (
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <Button 
+                      variant="ghost" 
+                      size="icon" 
+                      className="text-muted-foreground hover:text-foreground"
+                      onClick={handleLogout}
+                    >
+                      <LogOut size={18} />
+                    </Button>
+                  </TooltipTrigger>
+                  <TooltipContent side="right">
+                    Logout
+                  </TooltipContent>
+                </Tooltip>
+              )}
+              
+              {isCollapsed && (
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <Button 
+                      variant="ghost" 
+                      size="icon" 
+                      className="text-muted-foreground hover:text-foreground"
+                      onClick={handleLogout}
+                    >
+                      <LogOut size={18} />
+                    </Button>
+                  </TooltipTrigger>
+                  <TooltipContent side="right">
+                    Logout
+                  </TooltipContent>
+                </Tooltip>
+              )}
+            </div>
           </div>
         </div>
       </aside>
@@ -101,6 +195,6 @@ export default function Sidebar() {
         isCollapsed ? "ml-[70px]" : "ml-[240px]",
         isMobile && "ml-0"
       )} />
-    </>
+    </TooltipProvider>
   );
 }
