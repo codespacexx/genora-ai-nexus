@@ -1,20 +1,21 @@
-
 import { toast } from "sonner";
 
-// API Key (do not expose in production)
-const GROQ_API_KEY = "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";
+// OpenRouter API Key (do not expose in production)
+const OPENROUTER_API_KEY = "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";
 
-// Generate text using Groq API
+// Generate text using OpenRouter DeepSeek API
 export const generateText = async (prompt: string) => {
   try {
-    const response = await fetch("https://api.groq.com/openai/v1/chat/completions", {
+    const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${GROQ_API_KEY}`,
+        Authorization: `Bearer ${OPENROUTER_API_KEY}`,
+        "HTTP-Referer": "https://yourdomain.com", // optional but recommended
+        "X-Title": "Genora AI", // optional title for OpenRouter usage tracking
       },
       body: JSON.stringify({
-        model: "llama3-8b-8192",
+        model: "deepseek-chat", // or "deepseek-coder" based on your goal
         messages: [{ role: "user", content: prompt }],
         temperature: 0.7,
         max_tokens: 800,
@@ -22,7 +23,7 @@ export const generateText = async (prompt: string) => {
     });
 
     const data = await response.json();
-    
+
     if (!response.ok) {
       throw new Error(data.error?.message || "Failed to generate text");
     }
@@ -49,7 +50,7 @@ export const generateImage = async (prompt: string) => {
     });
 
     const data = await response.json();
-    
+
     if (!response.ok || !data?.data?.photo) {
       throw new Error("Failed to generate image");
     }
