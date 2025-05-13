@@ -1,9 +1,8 @@
 
-import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useAuthStore } from "@/store/authStore";
-import Navbar from "@/components/Navbar";
 import CreditsDisplay from "@/components/CreditsDisplay";
 import UsageStats from "@/components/UsageStats";
 import QuickTips from "@/components/QuickTips";
@@ -13,6 +12,17 @@ import ImageGenerator from "@/components/ImageGenerator";
 const Dashboard = () => {
   const { isLoggedIn, isLoading, loadUser, user } = useAuthStore();
   const navigate = useNavigate();
+  const location = useLocation();
+  const [activeTab, setActiveTab] = useState<string>("text");
+  
+  // Determine active tab based on URL
+  useEffect(() => {
+    if (location.pathname === "/image-generator") {
+      setActiveTab("image");
+    } else if (location.pathname === "/text-generator") {
+      setActiveTab("text");
+    }
+  }, [location.pathname]);
   
   useEffect(() => {
     loadUser();
@@ -24,6 +34,12 @@ const Dashboard = () => {
       navigate("/login");
     }
   }, [isLoggedIn, isLoading, navigate]);
+  
+  // Handle tab change
+  const handleTabChange = (value: string) => {
+    setActiveTab(value);
+    navigate(value === "text" ? "/text-generator" : "/image-generator");
+  };
   
   if (isLoading) {
     return <div className="min-h-screen flex items-center justify-center">Loading...</div>;
@@ -46,7 +62,7 @@ const Dashboard = () => {
           <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
             {/* Left column - Tools */}
             <div className="lg:col-span-3">
-              <Tabs defaultValue="text" className="w-full">
+              <Tabs value={activeTab} onValueChange={handleTabChange} className="w-full">
                 <TabsList className="mb-6">
                   <TabsTrigger value="text">Text Generation</TabsTrigger>
                   <TabsTrigger value="image">Image Generation</TabsTrigger>

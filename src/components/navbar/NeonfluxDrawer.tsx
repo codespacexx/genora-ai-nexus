@@ -77,17 +77,17 @@ export function NeonfluxDrawer({ open, onOpenChange }: NeonfluxDrawerProps) {
 
   return (
     <Drawer open={open} onOpenChange={onOpenChange}>
-      <DrawerOverlay className="bg-black/60 backdrop-blur-sm" />
-      <DrawerContent className="w-72 p-0 neonflux-glass border-r border-neonflux-purple/20">
+      <DrawerOverlay className="bg-black/40 backdrop-blur-sm" />
+      <DrawerContent className="w-72 p-0 professional-glass border-r border-gray-200/50 dark:border-gray-700/30">
         <div className="flex flex-col h-full">
           {/* Header with logo */}
-          <div className="flex items-center p-4 border-b border-neonflux-purple/20">
+          <div className="flex items-center p-4 border-b border-gray-200/50 dark:border-gray-700/30">
             <NeonFluxLogo size="sm" />
           </div>
           
           {/* Navigation */}
           <nav className="flex-grow p-4">
-            <ul className="space-y-2">
+            <ul className="space-y-1">
               {navItems.map((item) => {
                 const isActive = location.pathname === item.href;
                 
@@ -96,26 +96,26 @@ export function NeonfluxDrawer({ open, onOpenChange }: NeonfluxDrawerProps) {
                     <Link
                       to={item.href}
                       className={cn(
-                        "flex items-center gap-3 px-4 py-3 rounded-lg transition-all",
-                        "hover:bg-neonflux-purple/10 group",
+                        "flex items-center gap-3 px-4 py-2.5 rounded-md transition-all",
+                        "hover:bg-brand-accent/10 group",
                         isActive 
-                          ? "bg-neonflux-purple/20 text-neonflux-purple font-orbitron" 
+                          ? "bg-brand-accent/15 text-brand-accent font-medium" 
                           : "text-foreground/80"
                       )}
                     >
                       <item.icon 
-                        size={20} 
+                        size={18} 
                         className={cn(
                           "transition-all duration-300",
                           isActive 
-                            ? "text-neonflux-purple" 
-                            : "text-foreground/70 group-hover:text-neonflux-purple"
+                            ? "text-brand-accent" 
+                            : "text-foreground/70 group-hover:text-brand-accent"
                         )}
                       />
-                      <span className="font-medium">{item.label}</span>
+                      <span className="font-medium text-sm">{item.label}</span>
                       
                       {isActive && (
-                        <div className="ml-auto w-1.5 h-6 bg-neonflux-purple rounded-full animate-pulse-slow" />
+                        <div className="ml-auto w-1 h-5 bg-brand-accent rounded-full" />
                       )}
                     </Link>
                   </li>
@@ -123,23 +123,23 @@ export function NeonfluxDrawer({ open, onOpenChange }: NeonfluxDrawerProps) {
               })}
               
               {/* Logout button */}
-              <li className="mt-6">
+              <li className="mt-6 pt-6 border-t border-gray-200/50 dark:border-gray-700/30">
                 <button
                   onClick={handleLogout}
-                  className="flex w-full items-center gap-3 px-4 py-3 rounded-lg transition-all hover:bg-neonflux-purple/10 text-foreground/80 group"
+                  className="flex w-full items-center gap-3 px-4 py-2.5 rounded-md transition-all hover:bg-brand-accent/10 text-foreground/80 group"
                 >
                   <LogOut 
-                    size={20} 
-                    className="text-foreground/70 group-hover:text-neonflux-purple transition-colors" 
+                    size={18} 
+                    className="text-foreground/70 group-hover:text-brand-accent transition-colors" 
                   />
-                  <span className="font-medium">Logout</span>
+                  <span className="font-medium text-sm">Logout</span>
                 </button>
               </li>
             </ul>
           </nav>
           
           {/* Footer */}
-          <div className="p-4 border-t border-neonflux-purple/20">
+          <div className="p-4 border-t border-gray-200/50 dark:border-gray-700/30">
             <div className="text-xs text-center text-foreground/60">
               <p>NeonFlux AI © 2025</p>
             </div>

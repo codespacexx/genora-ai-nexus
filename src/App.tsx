@@ -8,6 +8,10 @@ import { useEffect } from "react";
 import { useAuthStore } from "./store/authStore";
 import { useCreditsStore } from "./store/creditsStore";
 import { NavBar } from "./components/navbar/NavBar";
+import "@fontsource/inter/400.css";
+import "@fontsource/inter/500.css";
+import "@fontsource/inter/600.css";
+import "@fontsource/inter/700.css";
 
 // Pages
 import Index from "./pages/Index";
@@ -63,6 +67,8 @@ const App = () => {
             <Route path="/pricing" element={<Pricing />} />
             <Route path="/settings" element={<Settings />} />
             <Route path="/billing" element={<Billing />} />
+            <Route path="/image-generator" element={<Dashboard />} />
+            <Route path="/text-generator" element={<Dashboard />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>

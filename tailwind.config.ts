@@ -1,4 +1,3 @@
-
 import type { Config } from "tailwindcss";
 
 export default {
@@ -63,17 +62,16 @@ export default {
 					border: 'hsl(var(--sidebar-border))',
 					ring: 'hsl(var(--sidebar-ring))'
 				},
-				neonflux: {
-					purple: '#8B5CF6',
-					blue: '#0EA5E9',
-					pink: '#EC4899',
-					black: '#0F1117',
-					'dark-purple': '#6D28D9',
-					'dark-blue': '#0284C7',
-					glow: 'rgba(139, 92, 246, 0.5)'
+				brand: {
+					dark: "#1A1D23",
+					accent: "#3B82F6",
+					light: "#E5E7EB",
+					success: "#10B981"
 				}
 			},
 			fontFamily: {
+				sans: ['Inter', 'sans-serif'],
+				inter: ['Inter', 'sans-serif'],
 				orbitron: ['Orbitron', 'sans-serif'],
 			},
 			borderRadius: {

@@ -11,7 +11,7 @@ export function NavBar() {
 
   return (
     <>
-      <header className="fixed top-0 left-0 w-full z-40 neonflux-glass border-b border-neonflux-purple/20">
+      <header className="fixed top-0 left-0 w-full z-40 professional-glass shadow-sm">
         <div className="container mx-auto px-4 py-3 flex justify-between items-center">
           {/* Left side with logo */}
           <div className="flex items-center">
@@ -19,15 +19,15 @@ export function NavBar() {
           </div>
 
           {/* Right side with actions */}
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-3">
             <ThemeToggle />
             
             {/* Hamburger menu */}
             <Button 
-              variant="ghost" 
+              variant="outline" 
               size="icon"
               onClick={() => setIsDrawerOpen(true)}
-              className="bg-background/20 backdrop-blur-sm border border-neonflux-purple/20 hover:bg-neonflux-purple/10"
+              className="bg-background/50 backdrop-blur-sm border-gray-200/50 dark:border-gray-700/30 hover:bg-background/80"
             >
               <Menu className="h-5 w-5" />
               <span className="sr-only">Toggle menu</span>
