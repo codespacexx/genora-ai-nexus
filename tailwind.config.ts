@@ -1,3 +1,4 @@
+
 import type { Config } from "tailwindcss";
 
 export default {
@@ -64,7 +65,7 @@ export default {
 				},
 				brand: {
 					dark: "#1A1D23",
-					accent: "#3B82F6",
+					accent: "#3B82F6", 
 					light: "#E5E7EB",
 					success: "#10B981"
 				}
@@ -131,10 +132,44 @@ export default {
 				},
 				'glow': {
 					'0%, 100%': {
-						filter: 'drop-shadow(0 0 5px #8B5CF6)'
+						filter: 'drop-shadow(0 0 5px #3B82F6)'
 					},
 					'50%': {
-						filter: 'drop-shadow(0 0 15px #8B5CF6)'
+						filter: 'drop-shadow(0 0 15px #3B82F6)'
+					}
+				},
+				'slide-in-right': {
+					'0%': {
+						transform: 'translateX(100%)'
+					},
+					'100%': {
+						transform: 'translateX(0)'
+					}
+				},
+				'slide-out-right': {
+					'0%': {
+						transform: 'translateX(0)'
+					},
+					'100%': {
+						transform: 'translateX(100%)'
+					}
+				},
+				'slide-in-left': {
+					'0%': {
+						transform: 'translateX(-100%)'
+					},
+					'100%': {
+						transform: 'translateX(0)'
+					}
+				},
+				'scale-in': {
+					'0%': {
+						transform: 'scale(0.95)',
+						opacity: '0'
+					},
+					'100%': {
+						transform: 'scale(1)',
+						opacity: '1'
 					}
 				}
 			},
@@ -145,11 +180,15 @@ export default {
 				'fade-out': 'fade-out 0.3s ease-out',
 				'pulse-slow': 'pulse-slow 3s infinite',
 				'dash': 'dash 1.5s ease-in-out forwards',
-				'glow': 'glow 3s infinite'
+				'glow': 'glow 3s infinite',
+				'slide-in-right': 'slide-in-right 0.3s ease-out',
+				'slide-out-right': 'slide-out-right 0.3s ease-out',
+				'slide-in-left': 'slide-in-left 0.3s ease-out',
+				'scale-in': 'scale-in 0.2s ease-out',
 			},
 			backgroundImage: {
 				'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
-				'hero-gradient': 'linear-gradient(to right, #8B5CF6, #0EA5E9)'
+				'hero-gradient': 'linear-gradient(to right, #3B82F6, #10B981)'
 			},
 		}
 	},

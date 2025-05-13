@@ -12,6 +12,7 @@ import "@fontsource/inter/400.css";
 import "@fontsource/inter/500.css";
 import "@fontsource/inter/600.css";
 import "@fontsource/inter/700.css";
+import "./index.css";
 
 // Pages
 import Index from "./pages/Index";
@@ -23,6 +24,9 @@ import Pricing from "./pages/Pricing";
 import Settings from "./pages/Settings";
 import Billing from "./pages/Billing";
 import NotFound from "./pages/NotFound";
+import CodeHelper from "./pages/CodeHelper";
+import Chatbot from "./pages/Chatbot";
+import Profile from "./pages/Profile";
 
 const queryClient = new QueryClient();
 
@@ -41,7 +45,7 @@ const initializeTheme = () => {
 };
 
 const App = () => {
-  const { loadUser } = useAuthStore();
+  const { isLoggedIn, isLoading, loadUser } = useAuthStore();
   const { checkAndResetCredits } = useCreditsStore();
   
   // Initialize theme and load user data on app start
@@ -58,20 +62,25 @@ const App = () => {
         <Sonner />
         <BrowserRouter>
           <NavBar />
-          <Routes>
-            <Route path="/" element={<Index />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<Register />} />
-            <Route path="/dashboard" element={<Dashboard />} />
-            <Route path="/history" element={<History />} />
-            <Route path="/pricing" element={<Pricing />} />
-            <Route path="/settings" element={<Settings />} />
-            <Route path="/billing" element={<Billing />} />
-            <Route path="/image-generator" element={<Dashboard />} />
-            <Route path="/text-generator" element={<Dashboard />} />
-            {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-            <Route path="*" element={<NotFound />} />
-          </Routes>
+          <div className="pt-[72px] min-h-screen">
+            <Routes>
+              <Route path="/" element={<Index />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/register" element={<Register />} />
+              <Route path="/dashboard" element={<Dashboard />} />
+              <Route path="/history" element={<History />} />
+              <Route path="/pricing" element={<Pricing />} />
+              <Route path="/settings" element={<Settings />} />
+              <Route path="/billing" element={<Billing />} />
+              <Route path="/profile" element={<Profile />} />
+              <Route path="/image-generator" element={<Dashboard />} />
+              <Route path="/text-generator" element={<Dashboard />} />
+              <Route path="/code-helper" element={<CodeHelper />} />
+              <Route path="/chatbot" element={<Chatbot />} />
+              {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          </div>
         </BrowserRouter>
       </TooltipProvider>
     </QueryClientProvider>

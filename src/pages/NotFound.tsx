@@ -1,44 +1,40 @@
 
-import { useLocation, Link } from "react-router-dom";
-import { useEffect } from "react";
+import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import Logo from "@/components/Logo";
+import { NeonFluxLogo } from "@/components/logo/NeonFluxLogo";
+import { ArrowLeft, Home } from "lucide-react";
 
-const NotFound = () => {
-  const location = useLocation();
-
-  useEffect(() => {
-    console.error(
-      "404 Error: User attempted to access non-existent route:",
-      location.pathname
-    );
-  }, [location.pathname]);
-
+export default function NotFound() {
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-background px-4">
-      <div className="text-center max-w-md">
-        <Logo size="lg" withText className="mx-auto mb-6" />
+    <div className="min-h-screen w-full flex flex-col items-center justify-center px-4 bg-background">
+      <div className="max-w-md w-full space-y-8 text-center">
+        <div className="flex justify-center">
+          <NeonFluxLogo size="lg" />
+        </div>
         
-        <h1 className="text-6xl font-bold mb-4 gradient-text">404</h1>
+        <div className="space-y-3">
+          <h1 className="text-6xl font-bold text-brand-accent">404</h1>
+          <h2 className="text-2xl font-semibold">Page Not Found</h2>
+          <p className="text-muted-foreground">
+            The page you're looking for doesn't exist or has been moved.
+          </p>
+        </div>
         
-        <p className="text-2xl font-semibold mb-3">Page Not Found</p>
-        
-        <p className="text-muted-foreground mb-8">
-          The page you are looking for doesn't exist or has been moved.
-        </p>
-        
-        <div className="flex flex-col sm:flex-row gap-3 justify-center">
-          <Button asChild>
-            <Link to="/">Go Home</Link>
+        <div className="pt-6 flex flex-col sm:flex-row gap-4 justify-center">
+          <Button asChild className="flex items-center gap-2">
+            <Link to="/">
+              <Home size={18} />
+              Back to Home
+            </Link>
           </Button>
-          
-          <Button variant="outline" asChild>
-            <Link to="/dashboard">Go to Dashboard</Link>
+          <Button variant="outline" asChild className="flex items-center gap-2">
+            <Link to="/dashboard">
+              <ArrowLeft size={18} />
+              Go to Dashboard
+            </Link>
           </Button>
         </div>
       </div>
     </div>
   );
-};
-
-export default NotFound;
+}

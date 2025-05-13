@@ -13,7 +13,9 @@ import {
   History, 
   DollarSign, 
   Settings, 
-  LogOut 
+  LogOut,
+  Code,
+  MessageSquare
 } from "lucide-react";
 import { NeonFluxLogo } from "@/components/logo/NeonFluxLogo";
 import { cn } from "@/lib/utils";
@@ -43,14 +45,24 @@ export function NeonfluxDrawer({ open, onOpenChange }: NeonfluxDrawerProps) {
       href: "/dashboard" 
     },
     { 
+      icon: Text, 
+      label: "Content Generator", 
+      href: "/text-generator" 
+    },
+    { 
       icon: Image, 
       label: "Image Generator", 
       href: "/image-generator" 
     },
     { 
-      icon: Text, 
-      label: "Text Generator", 
-      href: "/text-generator" 
+      icon: Code, 
+      label: "Code Helper", 
+      href: "/code-helper" 
+    },
+    { 
+      icon: MessageSquare, 
+      label: "ChatBot", 
+      href: "/chatbot" 
     },
     { 
       icon: History, 

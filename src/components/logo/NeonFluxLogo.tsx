@@ -28,17 +28,16 @@ export function NeonFluxLogo({
           xmlns="http://www.w3.org/2000/svg"
           className="w-full h-full"
         >
-          {/* Base circle */}
+          {/* Premium circle background */}
           <circle 
             cx="60" 
             cy="60" 
-            r="52" 
-            fill="#1A1D23" 
-            className="stroke-brand-accent" 
-            strokeWidth="2"
+            r="54" 
+            className="fill-background stroke-brand-accent" 
+            strokeWidth="2.5"
           />
           
-          {/* N letterform - modern, professional */}
+          {/* Modern letter N */}
           <path 
             d="M40,40 L40,80 M40,40 L80,80 M80,40 L80,80" 
             className="stroke-brand-accent" 
@@ -49,15 +48,20 @@ export function NeonFluxLogo({
           />
           
           {/* Subtle accent details */}
-          <circle cx="40" cy="40" r="3" className="fill-brand-accent opacity-80" />
-          <circle cx="80" cy="80" r="3" className="fill-brand-accent opacity-80" />
+          <circle cx="40" cy="40" r="4" className="fill-brand-accent opacity-70" />
+          <circle cx="80" cy="80" r="4" className="fill-brand-accent opacity-70" />
         </svg>
       </div>
       
       {variant === "default" && (
-        <span className="text-xl font-semibold font-inter tracking-wide hidden sm:block">
-          NeonFlux AI
-        </span>
+        <div>
+          <span className="text-xl font-semibold tracking-wide hidden sm:block">
+            NeonFlux<span className="text-brand-accent font-bold">AI</span>
+          </span>
+          <span className="text-xs text-muted-foreground hidden sm:block">
+            Enterprise Edition
+          </span>
+        </div>
       )}
     </div>
   );
