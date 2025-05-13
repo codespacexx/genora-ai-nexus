@@ -7,7 +7,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { useEffect } from "react";
 import { useAuthStore } from "./store/authStore";
 import { useCreditsStore } from "./store/creditsStore";
-import MobileSidebar from "./components/MobileSidebar";
+import { NavBar } from "./components/navbar/NavBar";
 
 // Pages
 import Index from "./pages/Index";
@@ -53,7 +53,7 @@ const App = () => {
         <Toaster />
         <Sonner />
         <BrowserRouter>
-          <MobileSidebar />
+          <NavBar />
           <Routes>
             <Route path="/" element={<Index />} />
             <Route path="/login" element={<Login />} />

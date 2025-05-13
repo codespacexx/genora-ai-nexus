@@ -63,13 +63,18 @@ export default {
 					border: 'hsl(var(--sidebar-border))',
 					ring: 'hsl(var(--sidebar-ring))'
 				},
-				genora: {
+				neonflux: {
 					purple: '#8B5CF6',
-					'deep-purple': '#7E69AB',
 					blue: '#0EA5E9',
-					'light-purple': '#D6BCFA',
-					'soft-blue': '#D3E4FD',
+					pink: '#EC4899',
+					black: '#0F1117',
+					'dark-purple': '#6D28D9',
+					'dark-blue': '#0284C7',
+					glow: 'rgba(139, 92, 246, 0.5)'
 				}
+			},
+			fontFamily: {
+				orbitron: ['Orbitron', 'sans-serif'],
 			},
 			borderRadius: {
 				lg: 'var(--radius)',
@@ -120,6 +125,19 @@ export default {
 					'50%': {
 						opacity: '0.8'
 					}
+				},
+				'dash': {
+					'to': {
+						strokeDashoffset: '0'
+					}
+				},
+				'glow': {
+					'0%, 100%': {
+						filter: 'drop-shadow(0 0 5px #8B5CF6)'
+					},
+					'50%': {
+						filter: 'drop-shadow(0 0 15px #8B5CF6)'
+					}
 				}
 			},
 			animation: {
@@ -127,7 +145,9 @@ export default {
 				'accordion-up': 'accordion-up 0.2s ease-out',
 				'fade-in': 'fade-in 0.3s ease-out',
 				'fade-out': 'fade-out 0.3s ease-out',
-				'pulse-slow': 'pulse-slow 3s infinite'
+				'pulse-slow': 'pulse-slow 3s infinite',
+				'dash': 'dash 1.5s ease-in-out forwards',
+				'glow': 'glow 3s infinite'
 			},
 			backgroundImage: {
 				'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',

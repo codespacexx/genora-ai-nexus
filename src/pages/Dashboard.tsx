@@ -3,7 +3,6 @@ import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useAuthStore } from "@/store/authStore";
-import Sidebar from "@/components/Sidebar";
 import Navbar from "@/components/Navbar";
 import CreditsDisplay from "@/components/CreditsDisplay";
 import UsageStats from "@/components/UsageStats";
@@ -32,10 +31,7 @@ const Dashboard = () => {
   
   return (
     <div className="min-h-screen bg-background">
-      <Navbar />
-      <Sidebar />
-      
-      <main className="pt-16 px-4 md:px-8 pb-16 max-w-screen-2xl mx-auto lg:pl-[240px]">
+      <main className="pt-16 px-4 md:px-8 pb-16 max-w-screen-2xl mx-auto">
         <div className="pt-8">
           <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 mb-6">
             {/* Widget Cards - First Row */}

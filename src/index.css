@@ -5,83 +5,83 @@
 
 @layer base {
   :root {
-    --background: 250 100% 99%;
-    --foreground: 222.2 84% 4.9%;
+    --background: 222 47% 11%;
+    --foreground: 210 40% 98%;
 
-    --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
+    --card: 222 47% 11%;
+    --card-foreground: 210 40% 98%;
 
-    --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
+    --popover: 222 47% 11%;
+    --popover-foreground: 210 40% 98%;
 
-    --primary: 262 83% 58%;
+    --primary: 263 84% 58%;
     --primary-foreground: 210 40% 98%;
 
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
+    --secondary: 217 91% 60%;
+    --secondary-foreground: 222 47% 11%;
 
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
+    --muted: 223 47% 20%;
+    --muted-foreground: 215 20.2% 65.1%;
 
-    --accent: 262 83% 96%;
-    --accent-foreground: 222.2 47.4% 11.2%;
+    --accent: 316 70% 50%;
+    --accent-foreground: 210 40% 98%;
 
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;
 
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
+    --border: 223 47% 20%;
+    --input: 223 47% 20%;
+    --ring: 263 84% 58%;
 
     --radius: 0.75rem;
 
-    --sidebar-background: 0 0% 100%;
-    --sidebar-foreground: 240 5.3% 26.1%;
-    --sidebar-primary: 262 83% 58%;
-    --sidebar-primary-foreground: 0 0% 98%;
-    --sidebar-accent: 240 4.8% 95.9%;
-    --sidebar-accent-foreground: 240 5.9% 10%;
-    --sidebar-border: 220 13% 91%;
-    --sidebar-ring: 262 83% 58%;
+    --sidebar-background: 222 47% 11%;
+    --sidebar-foreground: 210 40% 98%;
+    --sidebar-primary: 263 84% 58%;
+    --sidebar-primary-foreground: 210 40% 98%;
+    --sidebar-accent: 223 47% 20%;
+    --sidebar-accent-foreground: 210 40% 98%;
+    --sidebar-border: 223 47% 20%;
+    --sidebar-ring: 263 84% 58%;
   }
 
-  .dark {
-    --background: 240 10% 3.9%;
-    --foreground: 0 0% 98%;
+  .light {
+    --background: 0 0% 98%;
+    --foreground: 222 47% 11%;
     
-    --card: 240 10% 3.9%;
-    --card-foreground: 0 0% 98%;
+    --card: 0 0% 100%;
+    --card-foreground: 222 47% 11%;
     
-    --popover: 240 10% 3.9%;
-    --popover-foreground: 0 0% 98%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 222 47% 11%;
     
-    --primary: 262 83% 58%;
-    --primary-foreground: 0 0% 98%;
+    --primary: 263 84% 58%;
+    --primary-foreground: 210 40% 98%;
     
-    --secondary: 240 3.7% 15.9%;
+    --secondary: 217 91% 60%;
     --secondary-foreground: 0 0% 98%;
     
-    --muted: 240 3.7% 15.9%;
-    --muted-foreground: 240 5% 64.9%;
+    --muted: 210 40% 93%;
+    --muted-foreground: 215.4 16.3% 46.9%;
     
-    --accent: 240 3.7% 15.9%;
+    --accent: 316 70% 50%;
     --accent-foreground: 0 0% 98%;
     
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 0 0% 98%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
     
-    --border: 240 3.7% 15.9%;
-    --input: 240 3.7% 15.9%;
-    --ring: 240 4.9% 83.9%;
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 263 84% 58%;
 
-    --sidebar-background: 240 10% 3.9%;
-    --sidebar-foreground: 0 0% 98%;
-    --sidebar-primary: 262 83% 58%;
+    --sidebar-background: 210 40% 98%;
+    --sidebar-foreground: 222 47% 11%;
+    --sidebar-primary: 263 84% 58%;
     --sidebar-primary-foreground: 0 0% 98%;
-    --sidebar-accent: 240 3.7% 15.9%;
-    --sidebar-accent-foreground: 0 0% 98%;
-    --sidebar-border: 240 3.7% 15.9%;
-    --sidebar-ring: 262 83% 58%;
+    --sidebar-accent: 210 40% 93%;
+    --sidebar-accent-foreground: 222 47% 11%;
+    --sidebar-border: 214.3 31.8% 91.4%;
+    --sidebar-ring: 263 84% 58%;
   }
 }
 
@@ -92,56 +92,53 @@
 
   body {
     @apply bg-background text-foreground;
+    font-feature-settings: "rlig" 1, "calt" 1;
   }
 }
 
 @layer components {
   .card-shadow {
-    @apply shadow-[0_8px_30px_rgb(0,0,0,0.08)];
+    @apply shadow-[0_8px_30px_rgb(0,0,0,0.12)];
   }
 
-  .gradient-text {
-    @apply bg-clip-text text-transparent bg-gradient-to-r from-genora-purple to-genora-blue;
+  .neonflux-text {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-neonflux-purple to-neonflux-blue font-orbitron;
   }
 
-  .gradient-bg {
-    @apply bg-gradient-to-r from-genora-purple to-genora-blue text-white hover:shadow-lg transition-all;
+  .neonflux-gradient {
+    @apply bg-gradient-to-r from-neonflux-purple to-neonflux-blue text-white hover:shadow-lg transition-all;
   }
 
   /* Glassmorphism effect */
-  .glass {
-    @apply bg-white/80 backdrop-blur-lg border border-white/20 shadow-lg;
+  .neonflux-glass {
+    @apply bg-black/40 backdrop-blur-xl border border-neonflux-purple/20 shadow-lg;
   }
 
-  .dark .glass {
-    @apply bg-black/40 backdrop-blur-lg border border-white/10;
+  .light .neonflux-glass {
+    @apply bg-white/70 backdrop-blur-xl border border-neonflux-purple/20;
   }
 
   /* Button styles */
-  .btn-primary {
-    @apply gradient-bg text-white px-6 py-2.5 rounded-lg font-medium shadow-md hover:shadow-lg transition-all duration-300 ease-in-out;
+  .btn-neon {
+    @apply neonflux-gradient text-white px-6 py-2.5 rounded-lg font-medium shadow-md hover:shadow-neonflux-glow transition-all duration-300 ease-in-out;
   }
 
-  .btn-secondary {
-    @apply bg-secondary text-genora-purple px-6 py-2.5 rounded-lg font-medium shadow-sm hover:shadow-md transition-all duration-300 ease-in-out;
+  .btn-outline-neon {
+    @apply border border-neonflux-purple text-neonflux-purple px-6 py-2.5 rounded-lg font-medium hover:bg-neonflux-purple/5 transition-all duration-300 ease-in-out;
   }
 
-  .btn-outline {
-    @apply border border-genora-purple text-genora-purple px-6 py-2.5 rounded-lg font-medium hover:bg-genora-purple/5 transition-all duration-300 ease-in-out;
-  }
-
-  /* Input styles */
-  .input-primary {
-    @apply border border-border rounded-lg px-4 py-2.5 w-full focus:border-genora-purple focus:ring-1 focus:ring-genora-purple/20 outline-none transition-all;
-  }
-  
   /* Animation classes */
-  .hover-scale {
-    @apply transition-transform duration-200 hover:scale-105;
-  }
-  
   .hover-glow {
     @apply transition-all duration-300 hover:shadow-[0_0_15px_rgba(139,92,246,0.5)];
   }
-}
+  
+  .neon-border {
+    @apply border border-neonflux-purple/50 shadow-[0_0_5px_rgba(139,92,246,0.3)];
+  }
 
+  @keyframes dash {
+    to {
+      stroke-dashoffset: 0;
+    }
+  }
+}
