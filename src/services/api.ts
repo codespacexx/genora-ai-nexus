@@ -1,21 +1,19 @@
 import { toast } from "sonner";
 
-// OpenRouter API Key (do not expose in production)
-const OPENROUTER_API_KEY = "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";
+// WARNING: Do not expose API keys in production
+const GROQ_API_KEY = "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";
 
-// Generate text using OpenRouter DeepSeek API
+// Generate text using Groq API
 export const generateText = async (prompt: string) => {
   try {
-    const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
+    const response = await fetch("https://api.groq.com/openai/v1/chat/completions", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${OPENROUTER_API_KEY}`,
-        "HTTP-Referer": "https://yourdomain.com", // optional but recommended
-        "X-Title": "Genora AI", // optional title for OpenRouter usage tracking
+        Authorization: `Bearer ${GROQ_API_KEY}`,
       },
       body: JSON.stringify({
-        model: "deepseek-chat", // or "deepseek-coder" based on your goal
+        model: "llama3-8b-8192",
         messages: [{ role: "user", content: prompt }],
         temperature: 0.7,
         max_tokens: 800,
@@ -43,7 +41,7 @@ export const generateImage = async (prompt: string) => {
       method: "POST",
       headers: {
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:126.0) Gecko/20100101 Firefox/126.1",
-        "Accept": "*/*",
+        Accept: "*/*",
         "Content-Type": "application/json",
       },
       body: JSON.stringify({ prompt }),
