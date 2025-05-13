@@ -78,7 +78,7 @@ export function NeonfluxDrawer({ open, onOpenChange }: NeonfluxDrawerProps) {
   return (
     <Drawer open={open} onOpenChange={onOpenChange}>
       <DrawerOverlay className="bg-black/60 backdrop-blur-sm" />
-      <DrawerContent side="left" className="w-72 p-0 neonflux-glass border-r border-neonflux-purple/20">
+      <DrawerContent className="w-72 p-0 neonflux-glass border-r border-neonflux-purple/20">
         <div className="flex flex-col h-full">
           {/* Header with logo */}
           <div className="flex items-center p-4 border-b border-neonflux-purple/20">
