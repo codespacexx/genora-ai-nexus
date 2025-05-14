@@ -8,13 +8,14 @@ import { useCreditsStore } from "@/store/creditsStore";
 import Navbar from "@/components/Navbar";
 import Sidebar from "@/components/Sidebar";
 import { toast } from "sonner";
+import { isPremiumApproved, addEmailToPremiumList } from "@/services/premiumVerification";
 
 const Pricing = () => {
   const navigate = useNavigate();
-  const { user, isLoggedIn } = useAuthStore();
-  const { isPremium } = useCreditsStore();
+  const { user, isLoggedIn, updateUser } = useAuthStore();
+  const { isPremium, setPremium } = useCreditsStore();
   
-  const handleUpgrade = () => {
+  const handleUpgrade = async () => {
     if (!isLoggedIn) {
       navigate("/login");
       return;
@@ -26,10 +27,39 @@ const Pricing = () => {
       return;
     }
     
-    // Open WhatsApp with pre-filled message
     const userEmail = user?.email || "";
-    const whatsappMessage = encodeURIComponent(`Sir I wanna buy premium access. Here is my email: ${userEmail}`);
-    window.open(`https://wa.me/8801952081184?text=${whatsappMessage}`, "_blank");
+    if (!userEmail) {
+      toast.error("Please update your email in settings first");
+      return;
+    }
+    
+    toast.loading("Checking premium eligibility...", { id: "premium-check" });
+    
+    try {
+      // First check if the email is already in the approved list
+      const isAlreadyApproved = await isPremiumApproved(userEmail);
+      
+      if (isAlreadyApproved) {
+        // Email is already in the list, activate premium
+        setPremium(true);
+        updateUser({ isPremium: true });
+        toast.success("Premium features activated successfully!", { id: "premium-check" });
+      } else {
+        // Add email to approved list (simulated)
+        await addEmailToPremiumList(userEmail);
+        setPremium(true);
+        updateUser({ isPremium: true });
+        toast.success("Your account has been upgraded to Premium for 1 month!", { id: "premium-check" });
+      }
+      
+      // Navigate to dashboard
+      setTimeout(() => {
+        navigate("/dashboard");
+      }, 1500);
+    } catch (error) {
+      console.error("Error upgrading to premium:", error);
+      toast.error("Failed to upgrade. Please try again later.", { id: "premium-check" });
+    }
   };
   
   return (
@@ -98,11 +128,13 @@ const Pricing = () => {
               </CardHeader>
               <CardContent>
                 <ul className="space-y-3">
-                  <PricingItem>Unlimited credits</PricingItem>
+                  <PricingItem>100 credits per day</PricingItem>
                   <PricingItem>Priority generation</PricingItem>
                   <PricingItem>Higher quality outputs</PricingItem>
                   <PricingItem>Access to upcoming features</PricingItem>
-                  <PricingItem>Custom generations</PricingItem>
+                  <PricingItem>Advanced content generation</PricingItem>
+                  <PricingItem>Premium templates</PricingItem>
+                  <PricingItem>SEO-optimized content</PricingItem>
                 </ul>
               </CardContent>
               <CardFooter>
@@ -121,7 +153,7 @@ const Pricing = () => {
             <p className="text-muted-foreground mb-6">
               Contact us for custom pricing tailored to your organization's needs.
             </p>
-            <Button variant="outline" onClick={handleUpgrade}>
+            <Button variant="outline" onClick={() => window.location.href = "mailto:support@georana.com"}>
               Contact Us
             </Button>
           </div>

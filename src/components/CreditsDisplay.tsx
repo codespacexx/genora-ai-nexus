@@ -87,6 +87,14 @@ export default function CreditsDisplay() {
         </div>
       )}
       
+      {isPremium && (
+        <div className="mt-3 text-sm text-center">
+          <p className="text-primary">
+            Premium activated! Enjoy your enhanced features.
+          </p>
+        </div>
+      )}
+      
       {!isPremium && credits > 0 && credits <= 3 && (
         <div className="mt-2">
           <p className="text-xs text-amber-500">

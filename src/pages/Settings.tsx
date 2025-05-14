@@ -11,10 +11,11 @@ import { useCreditsStore } from "@/store/creditsStore";
 import { toast } from "sonner";
 import Sidebar from "@/components/Sidebar";
 import Navbar from "@/components/Navbar";
+import { checkAndActivatePremium } from "@/services/premiumVerification";
 
 const Settings = () => {
   const { user, isLoggedIn, isLoading, loadUser, updateUser } = useAuthStore();
-  const { isPremium } = useCreditsStore();
+  const { isPremium, setPremium } = useCreditsStore();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [isSaving, setIsSaving] = useState(false);
@@ -37,7 +38,7 @@ const Settings = () => {
     }
   }, [user]);
   
-  const handleSaveProfile = (e: React.FormEvent) => {
+  const handleSaveProfile = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSaving(true);
     
@@ -48,11 +49,23 @@ const Settings = () => {
       return;
     }
     
-    setTimeout(() => {
+    try {
+      // First update the user profile
       updateUser({ name, email });
       toast.success("Profile updated successfully");
+      
+      // Check if the email is in the premium list
+      await checkAndActivatePremium(
+        email, 
+        updateUser,
+        setPremium
+      );
+    } catch (error) {
+      console.error("Error updating profile:", error);
+      toast.error("Failed to update profile. Please try again.");
+    } finally {
       setIsSaving(false);
-    }, 500);
+    }
   };
   
   if (isLoading) {
@@ -72,7 +85,7 @@ const Settings = () => {
             <TabsList className="mb-6">
               <TabsTrigger value="profile">Profile</TabsTrigger>
               <TabsTrigger value="account">Account</TabsTrigger>
-              <TabsTrigger value="billing">Billing</TabsTrigger>
+              <TabsTrigger value="subscription">Subscription</TabsTrigger>
             </TabsList>
             
             {/* Profile Settings */}
@@ -104,6 +117,11 @@ const Settings = () => {
                         onChange={(e) => setEmail(e.target.value)}
                         disabled={isSaving}
                       />
+                      {email && (
+                        <p className="text-xs text-muted-foreground mt-1">
+                          Your email is used for account verification and premium status.
+                        </p>
+                      )}
                     </div>
                   </CardContent>
                   <CardFooter>
@@ -160,13 +178,13 @@ const Settings = () => {
               </Card>
             </TabsContent>
             
-            {/* Billing Settings */}
-            <TabsContent value="billing" className="mt-0">
+            {/* Subscription Settings */}
+            <TabsContent value="subscription" className="mt-0">
               <Card className="card-shadow">
                 <CardHeader>
-                  <CardTitle>Billing Information</CardTitle>
+                  <CardTitle>Subscription Information</CardTitle>
                   <CardDescription>
-                    Manage your subscription and payment details
+                    Manage your subscription status and features
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
@@ -183,7 +201,7 @@ const Settings = () => {
                         </span>
                         {isPremium && (
                           <span className="text-sm text-muted-foreground">
-                            Renews on June 15, 2025
+                            Premium features activated
                           </span>
                         )}
                       </div>
@@ -191,29 +209,37 @@ const Settings = () => {
                     
                     {isPremium ? (
                       <div className="space-y-4">
-                        <div className="border-t pt-4">
-                          <h3 className="font-semibold mb-2">Payment Method</h3>
-                          <div className="flex items-center gap-3">
-                            <div className="bg-muted w-12 h-8 rounded flex items-center justify-center">
-                              <span className="font-bold">VISA</span>
-                            </div>
-                            <span>••••  ••••  ••••  4242</span>
-                            <span className="text-sm text-muted-foreground">Expires 06/25</span>
-                          </div>
-                        </div>
-                        
-                        <div className="border-t pt-4">
-                          <h3 className="font-semibold mb-2">Billing History</h3>
-                          <div className="text-sm">
-                            <p>No billing history available.</p>
-                          </div>
+                        <div className="p-4 bg-primary/5 rounded-lg">
+                          <h3 className="font-semibold mb-2">Premium Features</h3>
+                          <ul className="space-y-2 text-sm">
+                            <li className="flex items-center gap-2">
+                              <Check className="h-4 w-4 text-primary" />
+                              <span>100 credits per day</span>
+                            </li>
+                            <li className="flex items-center gap-2">
+                              <Check className="h-4 w-4 text-primary" />
+                              <span>Priority content generation</span>
+                            </li>
+                            <li className="flex items-center gap-2">
+                              <Check className="h-4 w-4 text-primary" />
+                              <span>Advanced templates</span>
+                            </li>
+                            <li className="flex items-center gap-2">
+                              <Check className="h-4 w-4 text-primary" />
+                              <span>SEO-optimized outputs</span>
+                            </li>
+                            <li className="flex items-center gap-2">
+                              <Check className="h-4 w-4 text-primary" />
+                              <span>Extended image generation options</span>
+                            </li>
+                          </ul>
                         </div>
                       </div>
                     ) : (
                       <div className="bg-accent/30 p-4 rounded-lg">
                         <h3 className="font-semibold mb-2">Upgrade to Premium</h3>
                         <p className="text-sm text-muted-foreground mb-4">
-                          Upgrade to our Premium plan to get unlimited credits and premium features.
+                          Upgrade to our Premium plan to get 100 credits per day and premium features.
                         </p>
                         <Button
                           className="gradient-bg text-white"

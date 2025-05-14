@@ -1,5 +1,6 @@
 
 import { toast } from "sonner";
+import { checkAndActivatePremium } from "./premiumVerification";
 
 // User types
 export interface User {
@@ -32,6 +33,21 @@ class AuthService {
       localStorage.setItem(this.TOKEN_KEY, crypto.randomUUID());
       
       toast.success("Registration successful!");
+      
+      // Check if user should have premium status
+      setTimeout(async () => {
+        const updateUserFn = (data: Partial<User>) => this.updateUser(data);
+        const setPremiumFn = (isPremium: boolean) => {
+          // This would be handled by the credits store in the component
+          const updatedUser = this.updateUser({ isPremium });
+          if (updatedUser && isPremium) {
+            toast.success("Premium features activated!");
+          }
+        };
+        
+        await checkAndActivatePremium(email, updateUserFn, setPremiumFn);
+      }, 1000);
+      
       return user;
     } catch (error) {
       console.error("Registration error:", error);
@@ -69,6 +85,21 @@ class AuthService {
       localStorage.setItem(this.TOKEN_KEY, crypto.randomUUID());
       
       toast.success("Login successful!");
+      
+      // Check if user should have premium status
+      setTimeout(async () => {
+        const updateUserFn = (data: Partial<User>) => this.updateUser(data);
+        const setPremiumFn = (isPremium: boolean) => {
+          // This would be handled by the credits store in the component
+          const updatedUser = this.updateUser({ isPremium });
+          if (updatedUser && isPremium) {
+            toast.success("Premium features activated!");
+          }
+        };
+        
+        await checkAndActivatePremium(email, updateUserFn, setPremiumFn);
+      }, 1000);
+      
       return user;
     } catch (error) {
       console.error("Login error:", error);

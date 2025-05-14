@@ -22,7 +22,6 @@ import Dashboard from "./pages/Dashboard";
 import History from "./pages/History";
 import Pricing from "./pages/Pricing";
 import Settings from "./pages/Settings";
-import Billing from "./pages/Billing";
 import NotFound from "./pages/NotFound";
 import Profile from "./pages/Profile";
 
@@ -76,7 +75,6 @@ const App = () => {
               <Route path="/history" element={<History />} />
               <Route path="/pricing" element={<Pricing />} />
               <Route path="/settings" element={<Settings />} />
-              <Route path="/billing" element={<Billing />} />
               <Route path="/profile" element={<Profile />} />
               <Route path="/image-generator" element={<Dashboard />} />
               <Route path="/text-generator" element={<Dashboard />} />
