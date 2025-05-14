@@ -11,6 +11,7 @@ import { useCreditsStore } from "@/store/creditsStore";
 import { toast } from "sonner";
 import Sidebar from "@/components/Sidebar";
 import Navbar from "@/components/Navbar";
+import { Check } from "lucide-react"; // Added this import to fix the error
 import { checkAndActivatePremium } from "@/services/premiumVerification";
 
 const Settings = () => {
