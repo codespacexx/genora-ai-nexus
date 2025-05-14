@@ -1,7 +1,7 @@
 
 import { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { Home, History, Banknote, Settings, Menu, X, LogOut, User } from "lucide-react";
+import { Home, History, Banknote, Settings, Menu, X, LogOut, User, Image, Text } from "lucide-react";
 import { cn } from "@/lib/utils";
 import Logo from "./Logo";
 import { useAuthStore } from "@/store/authStore";
@@ -44,6 +44,8 @@ export default function Sidebar() {
   // Nav items with icons and links
   const navItems = [
     { icon: Home, label: "Dashboard", href: "/dashboard" },
+    { icon: Text, label: "Content Generator", href: "/text-generator" },
+    { icon: Image, label: "Image Generator", href: "/image-generator" },
     { icon: History, label: "History", href: "/history" },
     { icon: Banknote, label: "Pricing", href: "/pricing" },
     { icon: Settings, label: "Settings", href: "/settings" },
@@ -143,7 +145,7 @@ export default function Sidebar() {
                   </span>
                   <span className={cn(
                     "text-xs truncate",
-                    isPremium ? "text-genora-purple" : "text-muted-foreground"
+                    isPremium ? "text-brand-accent" : "text-muted-foreground"
                   )}>
                     {isPremium ? "Premium Plan" : "Free Plan"}
                   </span>

@@ -3,8 +3,11 @@ import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { NeonFluxLogo } from "@/components/logo/NeonFluxLogo";
 import { ArrowLeft, Home } from "lucide-react";
+import { useAuthStore } from "@/store/authStore";
 
 export default function NotFound() {
+  const { isLoggedIn } = useAuthStore();
+  
   return (
     <div className="min-h-screen w-full flex flex-col items-center justify-center px-4 bg-background">
       <div className="max-w-md w-full space-y-8 text-center">
@@ -27,12 +30,14 @@ export default function NotFound() {
               Back to Home
             </Link>
           </Button>
-          <Button variant="outline" asChild className="flex items-center gap-2">
-            <Link to="/dashboard">
-              <ArrowLeft size={18} />
-              Go to Dashboard
-            </Link>
-          </Button>
+          {isLoggedIn && (
+            <Button variant="outline" asChild className="flex items-center gap-2">
+              <Link to="/dashboard">
+                <ArrowLeft size={18} />
+                Go to Dashboard
+              </Link>
+            </Button>
+          )}
         </div>
       </div>
     </div>

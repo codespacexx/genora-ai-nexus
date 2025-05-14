@@ -8,7 +8,9 @@ import {
   Settings, 
   ChevronRight, 
   ChevronLeft,
-  LogOut 
+  LogOut,
+  Text,
+  Image
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import Logo from "../Logo";
@@ -34,6 +36,8 @@ export function GlassySidebar() {
   // Nav items with icons and links
   const navItems = [
     { icon: Home, label: "Dashboard", href: "/dashboard" },
+    { icon: Text, label: "Content Generator", href: "/text-generator" },
+    { icon: Image, label: "Image Generator", href: "/image-generator" },
     { icon: History, label: "History", href: "/history" },
     { icon: Banknote, label: "Pricing", href: "/pricing" },
     { icon: Settings, label: "Settings", href: "/settings" },

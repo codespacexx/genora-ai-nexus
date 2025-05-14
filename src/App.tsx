@@ -24,8 +24,6 @@ import Pricing from "./pages/Pricing";
 import Settings from "./pages/Settings";
 import Billing from "./pages/Billing";
 import NotFound from "./pages/NotFound";
-import CodeHelper from "./pages/CodeHelper";
-import Chatbot from "./pages/Chatbot";
 import Profile from "./pages/Profile";
 
 const queryClient = new QueryClient();
@@ -61,8 +59,8 @@ const App = () => {
         <Toaster />
         <Sonner />
         <BrowserRouter>
-          <NavBar />
-          <div className="pt-[72px] min-h-screen">
+          {isLoggedIn && <NavBar />}
+          <div className={isLoggedIn ? "pt-[72px] min-h-screen" : "min-h-screen"}>
             <Routes>
               <Route path="/" element={<Index />} />
               <Route path="/login" element={<Login />} />
@@ -75,8 +73,6 @@ const App = () => {
               <Route path="/profile" element={<Profile />} />
               <Route path="/image-generator" element={<Dashboard />} />
               <Route path="/text-generator" element={<Dashboard />} />
-              <Route path="/code-helper" element={<CodeHelper />} />
-              <Route path="/chatbot" element={<Chatbot />} />
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />
             </Routes>

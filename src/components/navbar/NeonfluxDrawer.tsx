@@ -13,9 +13,7 @@ import {
   History, 
   DollarSign, 
   Settings, 
-  LogOut,
-  Code,
-  MessageSquare
+  LogOut
 } from "lucide-react";
 import { NeonFluxLogo } from "@/components/logo/NeonFluxLogo";
 import { cn } from "@/lib/utils";
@@ -53,16 +51,6 @@ export function NeonfluxDrawer({ open, onOpenChange }: NeonfluxDrawerProps) {
       icon: Image, 
       label: "Image Generator", 
       href: "/image-generator" 
-    },
-    { 
-      icon: Code, 
-      label: "Code Helper", 
-      href: "/code-helper" 
-    },
-    { 
-      icon: MessageSquare, 
-      label: "ChatBot", 
-      href: "/chatbot" 
     },
     { 
       icon: History, 
@@ -153,7 +141,7 @@ export function NeonfluxDrawer({ open, onOpenChange }: NeonfluxDrawerProps) {
           {/* Footer */}
           <div className="p-4 border-t border-gray-200/50 dark:border-gray-700/30">
             <div className="text-xs text-center text-foreground/60">
-              <p>NeonFlux AI © 2025</p>
+              <p>Georana AI © 2025</p>
             </div>
           </div>
         </div>

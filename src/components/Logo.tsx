@@ -31,15 +31,21 @@ export default function Logo({ size = "md", withText = true, className = "" }: L
         fill="none" 
         xmlns="http://www.w3.org/2000/svg"
       >
-        <path
-          d="M18 3C9.716 3 3 9.716 3 18C3 26.284 9.716 33 18 33C26.284 33 33 26.284 33 18C33 9.716 26.284 3 18 3Z"
+        <circle 
+          cx="18" 
+          cy="18" 
+          r="15" 
           fill="url(#paint0_linear)"
+          stroke="#FFFFFF"
+          strokeWidth="1"
         />
-        <path
-          fillRule="evenodd"
-          clipRule="evenodd"
-          d="M18 33C26.2843 33 33 26.2843 33 18C33 9.71573 26.2843 3 18 3C9.71573 3 3 9.71573 3 18C3 26.2843 9.71573 33 18 33ZM15.5 13C14.1193 13 13 14.1193 13 15.5V22.5C13 23.8807 14.1193 25 15.5 25H20.5C21.8807 25 23 23.8807 23 22.5V15.5C23 14.1193 21.8807 13 20.5 13H15.5ZM18 18.5C18 18.5 18 14.5 18 14.5C18 14.5 20.5 14.5 20.5 14.5C20.5 14.5 20.5 22.5 20.5 22.5C20.5 22.5 15.5 22.5 15.5 22.5C15.5 22.5 15.5 18.5 15.5 18.5C15.5 18.5 18 18.5 18 18.5Z"
-          fill="white"
+        <path 
+          d="M12,12 A10,10 0 1,0 12,24 L12,18 L18,18"
+          stroke="#FFFFFF"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          fill="none"
         />
         <defs>
           <linearGradient
@@ -58,7 +64,7 @@ export default function Logo({ size = "md", withText = true, className = "" }: L
       
       {withText && (
         <span className={`${textSizes[size]} gradient-text`}>
-          Genora AI
+          Georana AI
         </span>
       )}
     </Link>
