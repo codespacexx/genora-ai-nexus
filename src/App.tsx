@@ -43,8 +43,8 @@ const initializeTheme = () => {
 };
 
 const App = () => {
-  const { isLoggedIn, isLoading, loadUser } = useAuthStore();
-  const { checkAndResetCredits } = useCreditsStore();
+  const { isLoggedIn, isLoading, loadUser, user } = useAuthStore();
+  const { checkAndResetCredits, setPremium } = useCreditsStore();
   
   // Initialize theme and load user data on app start
   useEffect(() => {
@@ -52,6 +52,13 @@ const App = () => {
     loadUser();
     checkAndResetCredits();
   }, [loadUser, checkAndResetCredits]);
+  
+  // Sync premium status from user to credits store
+  useEffect(() => {
+    if (user?.isPremium) {
+      setPremium(true);
+    }
+  }, [user, setPremium]);
 
   return (
     <QueryClientProvider client={queryClient}>
