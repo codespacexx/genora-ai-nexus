@@ -27,33 +27,35 @@ export default function Logo({ size = "md", withText = true, className = "" }: L
     >
       <svg 
         className={`${sizes[size]}`}
-        viewBox="0 0 36 36" 
+        viewBox="0 0 120 120" 
         fill="none" 
         xmlns="http://www.w3.org/2000/svg"
       >
         <circle 
-          cx="18" 
-          cy="18" 
-          r="15" 
+          cx="60" 
+          cy="60" 
+          r="54" 
           fill="url(#paint0_linear)"
           stroke="#FFFFFF"
-          strokeWidth="1"
+          strokeWidth="1.5"
         />
         <path 
-          d="M12,12 A10,10 0 1,0 12,24 L12,18 L18,18"
+          d="M40,40 A25,25 0 1,0 40,80 L40,60 L60,60"
           stroke="#FFFFFF"
-          strokeWidth="2"
+          strokeWidth="3.5"
           strokeLinecap="round"
           strokeLinejoin="round"
           fill="none"
         />
+        <circle cx="40" cy="40" r="4" fill="#FFFFFF" fillOpacity="0.7" />
+        <circle cx="60" cy="60" r="4" fill="#FFFFFF" fillOpacity="0.7" />
         <defs>
           <linearGradient
             id="paint0_linear"
-            x1="3"
-            y1="18"
-            x2="33"
-            y2="18"
+            x1="6"
+            y1="60"
+            x2="114"
+            y2="60"
             gradientUnits="userSpaceOnUse"
           >
             <stop stopColor="#8B5CF6" />
@@ -63,9 +65,16 @@ export default function Logo({ size = "md", withText = true, className = "" }: L
       </svg>
       
       {withText && (
-        <span className={`${textSizes[size]} gradient-text`}>
-          Georana AI
-        </span>
+        <div className="flex flex-col">
+          <span className={`${textSizes[size]} gradient-text`}>
+            Georana<span className="text-brand-accent">AI</span>
+          </span>
+          {size !== "sm" && (
+            <span className="text-xs text-muted-foreground -mt-1">
+              Enterprise Edition
+            </span>
+          )}
+        </div>
       )}
     </Link>
   );

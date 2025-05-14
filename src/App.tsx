@@ -59,7 +59,7 @@ const App = () => {
         <Toaster />
         <Sonner />
         <BrowserRouter>
-          {isLoggedIn && <NavBar />}
+          <NavBar /> {/* NavBar component now handles conditional rendering internally */}
           <div className={isLoggedIn ? "pt-[72px] min-h-screen" : "min-h-screen"}>
             <Routes>
               <Route path="/" element={<Index />} />

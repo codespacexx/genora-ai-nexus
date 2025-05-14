@@ -11,10 +11,10 @@ export default function UsageStats() {
   };
 
   return (
-    <Card className="backdrop-blur-sm bg-card/60">
+    <Card className="backdrop-blur-sm bg-card/60 border-border/40 overflow-hidden shadow-sm hover:shadow-md transition-all">
       <CardHeader className="pb-2">
         <CardTitle className="text-lg flex items-center">
-          <BarChart className="mr-2 h-5 w-5 text-muted-foreground" />
+          <BarChart className="mr-2 h-5 w-5 text-brand-accent" />
           Usage Statistics
         </CardTitle>
       </CardHeader>
@@ -23,11 +23,11 @@ export default function UsageStats() {
           <div>
             <div className="flex items-center justify-between mb-1">
               <span className="text-sm font-medium">Text Generated</span>
-              <span className="text-sm text-muted-foreground">{stats.textGenerated}</span>
+              <span className="text-sm font-medium text-brand-accent">{stats.textGenerated}</span>
             </div>
-            <div className="h-2 rounded-full bg-muted overflow-hidden">
+            <div className="h-2 rounded-full bg-muted/50 overflow-hidden">
               <div 
-                className="h-full bg-gradient-to-r from-genora-blue to-genora-purple" 
+                className="h-full bg-gradient-to-r from-brand-accent to-blue-500" 
                 style={{ width: `${Math.min(100, stats.textGenerated * 3)}%` }}
               />
             </div>
@@ -36,11 +36,11 @@ export default function UsageStats() {
           <div>
             <div className="flex items-center justify-between mb-1">
               <span className="text-sm font-medium">Images Generated</span>
-              <span className="text-sm text-muted-foreground">{stats.imagesGenerated}</span>
+              <span className="text-sm font-medium text-brand-accent">{stats.imagesGenerated}</span>
             </div>
-            <div className="h-2 rounded-full bg-muted overflow-hidden">
+            <div className="h-2 rounded-full bg-muted/50 overflow-hidden">
               <div 
-                className="h-full bg-gradient-to-r from-genora-purple to-genora-deep-purple" 
+                className="h-full bg-gradient-to-r from-purple-500 to-brand-accent" 
                 style={{ width: `${Math.min(100, stats.imagesGenerated * 5)}%` }}
               />
             </div>

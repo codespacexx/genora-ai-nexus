@@ -54,7 +54,7 @@ export function NeonFluxLogo({
       </div>
       
       {variant === "default" && (
-        <div>
+        <div className="flex flex-col justify-center">
           <span className="text-xl font-semibold tracking-wide hidden sm:block">
             Georana<span className="text-brand-accent font-bold">AI</span>
           </span>

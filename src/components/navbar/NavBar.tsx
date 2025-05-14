@@ -19,10 +19,13 @@ import { Link } from "react-router-dom";
 
 export function NavBar() {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
-  const { user, logout } = useAuthStore();
+  const { user, logout, isLoggedIn } = useAuthStore();
   
   // Access user metadata safely
   const userMetadata = user?.user_metadata as Record<string, any> || {};
+
+  // Don't render the NavBar if not logged in
+  if (!isLoggedIn) return null;
 
   return (
     <>
@@ -44,7 +47,7 @@ export function NavBar() {
             <Button 
               variant="ghost" 
               size="icon"
-              className="bg-background/20 backdrop-blur-sm border border-gray-200/50 dark:border-gray-700/30 hover:bg-background/40"
+              className="bg-background/20 backdrop-blur-sm border border-gray-200/50 dark:border-gray-700/30 hover:bg-background/40 transition-all duration-200"
             >
               <Bell className="h-[1.2rem] w-[1.2rem]" />
               <span className="sr-only">Notifications</span>
@@ -56,7 +59,7 @@ export function NavBar() {
                 <Button 
                   variant="ghost" 
                   size="icon" 
-                  className="bg-background/20 backdrop-blur-sm border border-gray-200/50 dark:border-gray-700/30 hover:bg-background/40 rounded-full overflow-hidden"
+                  className="bg-background/20 backdrop-blur-sm border border-gray-200/50 dark:border-gray-700/30 hover:bg-background/40 transition-all duration-200 rounded-full overflow-hidden"
                 >
                   <Avatar className="h-8 w-8">
                     <AvatarImage src={userMetadata?.avatar_url || ""} />
@@ -93,7 +96,7 @@ export function NavBar() {
               variant="outline" 
               size="icon"
               onClick={() => setIsDrawerOpen(true)}
-              className="bg-background/20 backdrop-blur-sm border border-gray-200/50 dark:border-gray-700/30 hover:bg-background/40"
+              className="bg-background/20 backdrop-blur-sm border border-gray-200/50 dark:border-gray-700/30 hover:bg-background/40 transition-all duration-200"
             >
               <Menu className="h-5 w-5" />
               <span className="sr-only">Toggle menu</span>
